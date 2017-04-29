@@ -36,8 +36,21 @@ n <- length(data[, 8])
                  
  data <- data[-index,]
  l <- 1:(length(data[,1]) - 1):2
- for (i in l){
-         session$time <- (data[i+1,9] - data[i,9])/1000 
+ for (fac in myfac){
+         temp <- data$V3 == fac
+         p <- length(temp)
+         q <- 1
+         for (i in 1:p){
+                 if (temp[i,4] == 'ggstop' & (temp[i+1] - temp[i]) >= 30 ){
+                         session$fac[q] <- session[q] + (temp[i] - temp[i-1])/1000
+                 }
+                else if (temp[i, 4] == 'ggstop' & (temp[i+1] - temp[i]) < 30){
+                        q <- q+1
+                        session$fac[q] <- session$fac[q] +(temp[i] - temp[i-1])/1000
+                }
+                 
+         }
  }
- session$avg <- mean(data$'stime')
- count <- length(session$count) 
+        
+ avg <- mean(sessions)
+ count <- length(session) 
