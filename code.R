@@ -41,15 +41,25 @@ n <- length(data[, 8])
          p <- length(temp)
          q <- 1
          for (i in 1:p){
-                 if (temp[i,4] == 'ggstop' & (temp[i+1] - temp[i]) >= 30 ){
+                 if (temp[i,4] == 'ggstop' & (temp[i+1] - temp[i]) <= 30 ){
                          session$fac[q] <- session[q] + (temp[i] - temp[i-1])/1000
                  }
-                else if (temp[i, 4] == 'ggstop' & (temp[i+1] - temp[i]) < 30){
+                else if (temp[i, 4] == 'ggstop' & (temp[i+1] - temp[i]) > 30){
                         q <- q+1
                         session$fac[q] <- session$fac[q] +(temp[i] - temp[i-1])/1000
                 }
                  
          }
+ }
+ s <- length(session[1,])
+ for (j in 1:s){
+         r <- length(session[,1])
+         for (i in 1:r){
+                 if (sum(session[i,j]) < 60){
+                         session <- session[-i, -j]
+                 }
+         }
+         
  }
         
  avg <- mean(session)
