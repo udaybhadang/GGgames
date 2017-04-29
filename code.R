@@ -52,5 +52,5 @@ n <- length(data[, 8])
          }
  }
         
- avg <- mean(sessions)
+ avg <- mean(session)
  count <- length(session) 
